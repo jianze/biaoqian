@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<script src="js/angular.min.js" type="text/javascript"></script>
+<script src="js/index.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" href="css/iconfont.css">
+</head>
+<body ng-controller="aa">
+<div id="mask" ng-click='choseflag=true' ng-show='!choseflag'></div>
+	<div class="left">
+		<div class="ding">
+			<div class="tianjia iconfont" ng-click="tian()">&#xe619;</div>
+		</div>
+		<ul>
+			<li>
+				<div class="leftl iconfont">&#xe63c;</div>
+				<div class="leftr">已计划</div>
+			</li>
+			<li ng-repeat="v in lie" ng-click="xuan($index)" ng-style="{background:$index==index?'#2D2D2B':''}">
+				<div class="leftl"><p ng-style="{background:v.color}"></p></div>
+				<div class="leftr">{{v.lieming}}</div>
+			</li>
+		</ul>
+	</div>
+	<div class="right">
+		<div class="ding">
+			<div class="sousuo">
+				<div class="fangda iconfont">&#xe662;</div>
+				<input type="text" placeholder="搜索所有">
+			</div>
+		</div>
+		<div class="dabiao" ng-style="{color:lie[index].color}">{{lie[index].lieming}} 
+			<p class="xuanxiang"  ng-style="{color:lie[index].color}" ng-click='setshow()'>选项</p>
+			<div id="set"  ng-show='!choseflag'>
+				<div class="inner">
+					<input class="top" style="color:{{colorss}}" ng-model='changetitle'>
+					<div class='listcolor'>
+						<p>列表颜色</p>
+						<ul class="color" >
+							<li ng-repeat='o in colors' ng-style="{background:o,borderColor:o==colorss?o:''}" ng-click='changecolor(o)'></li>
+						</ul>
+					</div>
+					<div class="btn">
+						<p ng-click="del()">删除</p>
+						<p ng-click="choseflag=!choseflag">取消</p>
+						<p ng-click="com()">完成</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ul class="wancheng">
+			<li>
+				<div class="leftl iconfont">&#xe639;</div>
+				<div class="leftr">已完成：{{(lie[index].nei|filter:{zt:true}).length}}项<p class="qinchu"  ng-style="{color:lie[index].color}" ng-click="shanchu((lie[index].nei|filter:{zt:true}))">清除已完成</p></div>
+			</li>
+			<li ng-repeat="v in lie[index].nei|filter:{zt:true}">
+				<div class="leftl" ng-click="xia($index,(lie[index].nei|filter:{zt:true}))">
+					<div class="qiu" ng-style="{background:lie[index].color,borderColor:lie[index].color}"></div>
+				</div>
+				<div class="leftr">{{v.rong}}</div>
+			</li>
+		</ul>
+		<ul class="weiwan">
+			<li class="weiwanxin" ng-repeat="v in lie[index].nei|filter:{zt:false}">
+				<div class="leftl" ng-click="shang($index,(lie[index].nei|filter:{zt:false}))">
+					<div class="huan" ng-style="{borderColor:lie[index].color}"></div>
+				</div>
+				<div class="leftr" contenteditable=true ng-blur="bianji($event,v)">{{v.rong}}</div>
+			</li>
+			<div id="xintian" ng-click="xiangmu()">
+				<div class="leftl"></div>
+				<div class="leftr">新项目...</div>
+			</div>
+		</ul>
+	</div>
+</body>
+</html>
